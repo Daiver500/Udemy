@@ -55,7 +55,7 @@ showMyDatabase(personalMovieDB.privat);
 
 const writeYoureGenres = () => {
   for (let i = 1; i <= 3; i++) {
-     const genre = prompt (`Ваш любимый жанр под номером ${i}`); // Вставка в строку работает только в бэктиках
+     const genre = prompt (`Ваш любимый жанр под номером ${i}`); // Интерполяция работает только в бэктиках (вставка в строку значения)
      personalMovieDB.genres[i - 1] = genre; // если не испольховать i - 1, то первый элемент массива будет пустой empty
   }
 };
