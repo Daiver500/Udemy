@@ -1,4 +1,4 @@
-let num = 55;
+ let num = 55;
 
 while (num < 55) {
   console.log(num);
