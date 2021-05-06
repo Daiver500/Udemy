@@ -18,19 +18,10 @@ console.log(copy);
 console.log(obj);
 
 // Передача по значнию идет для примитивных типов данных (числа, значения)
-// Передача по ссылке идет для объектов 
+// Передача по ссылке идет для объектов (через передачу по ссылке, если в копии меняем данные они меняются в оригинале, для того,
+// чтобы в копии менять данные и не затрагивать оригинал надо копировать объект, создавая новый объект)
 
-// Копирование объектов, дублирование
-
-//const copyObj = (mainObj) => {
- // let objCopy = {};
- // for (let i in mainObj) {
-    //  objCopy[i] = mainObj[i];
-  //}
-  //return objCopy;
-//};
-
-// Копирование объектов 
+// Копирование объектов через функцию (создание нового объекта для его изменения)
 
 const copyObj = (mainObj) => {
   let objCopy = {};
@@ -57,7 +48,7 @@ newNumbers.c.x = 9; //Сюда снова передается значение 
 console.log(newNumbers);
 console.log(numbers);
 
-// Объединение объектов 
+// Объединение объектов и создание нового объекта Object.assign()
 
 const add = {
   d:17,
@@ -73,3 +64,49 @@ clone.d = 20;
 
 console.log(add);
 console.log(clone);
+
+// Создание нового массива arr.slice()
+
+const oldArray = ["a", "b", "c"];
+const newArray = oldArray.slice(); //Создали новый массив
+
+newArray[1] = "d";
+
+console.log(oldArray);
+console.log(newArray);
+
+// Spread оператор ES6-ES9 (создание нового массива)
+
+const video = ["youtube", "vimeo", "rutube"];
+const blogs = ["wordpress", "livejournal", "blogger"];
+const internet = [...video, ...blogs, "vk", "fb"];
+
+console.log(internet);
+
+const log = (a,b,c) => {
+  console.log(a);
+  console.log(b);
+  console.log(c);
+};
+
+const num = [2,5,7];
+log(...num)
+
+// или через деструктуризацию
+const [d, e, f] = num;
+log(d,e,f);
+//
+
+const array = ["a", "b"];
+const newArr = [...array];
+
+console.log(newArr);
+
+const g = {
+  one:1,
+  two:2
+};
+
+const newObj = {...g};
+
+console.log(newObj);
