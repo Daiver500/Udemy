@@ -33,7 +33,6 @@ console.log(products1.join('; '));
 const compareNum = (a, b) => {  //функция для сортировки массива как чисел
   return a - b;
 };
-
 arr.sort(compareNum);
 
 arr.reverse(); //обратный порядок элементов массива
