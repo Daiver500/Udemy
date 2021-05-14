@@ -51,3 +51,24 @@ for (let k of arr) {
 arr.forEach((item, i, arr) => {    //метод для перебора массива (другие методы такие как map, every,some, filter, reduce для транформации массива )
   console.log(`${i}: ${item} внутри массива ${arr}`);
 });
+
+
+const array = [1,3,5];
+const newArray = array.slice();
+newArray[0] = 9;
+console.log(array);
+console.log(newArray);
+
+const oldArray = [1,3,5];
+const createCommentsArray = () => {
+  const resultComments = [];
+  oldArray.forEach((item) => {
+    resultComments.push(item);
+    console.log(item);
+  });
+  return resultComments;
+};
+console.log(resultComments)
+createCommentsArray();
+
+
