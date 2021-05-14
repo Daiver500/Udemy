@@ -52,23 +52,44 @@ arr.forEach((item, i, arr) => {    //метод для перебора масс
   console.log(`${i}: ${item} внутри массива ${arr}`);
 });
 
-
+// Копируем массив (создаемновый ,не по ссылке)
 const array = [1,3,5];
 const newArray = array.slice();
 newArray[0] = 9;
+
 console.log(array);
 console.log(newArray);
 
-const oldArray = [1,3,5];
-const createCommentsArray = () => {
-  const resultComments = [];
-  oldArray.forEach((item) => {
-    resultComments.push(item);
-    console.log(item);
-  });
-  return resultComments;
+const numbers = [2,5,7];
+const copyArray = (mainArray) => {
+  let arrayCopy = [];
+   for (let i=0; i < mainArray.length; i++) {
+    arrayCopy[i] = mainArray[i];
+  }
+  return arrayCopy;
 };
-console.log(resultComments)
-createCommentsArray();
+
+const newNumbers = copyArray(numbers);
+newNumbers[0] = 11;
+
+console.log(newNumbers);
+console.log(numbers);
+
+const moreNumbers = [2,5,7];
+const moreCopyArray = (mainArray) => {
+  let arrayCopy = [];
+  mainArray.forEach((item) => {
+    arrayCopy.push(item);
+  }); 
+  return arrayCopy;
+};
+
+const moreNewNumbers = moreCopyArray(moreNumbers);
+moreNewNumbers[0] = 14;
+
+console.log(moreNewNumbers);
+console.log(moreNumbers);
+
+
 
 

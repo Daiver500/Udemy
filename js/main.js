@@ -61,16 +61,3 @@ const writeYoureGenres = () => {
 };
 writeYoureGenres();
 
-const array = [1,3,5];
-
-const createCommentsArray = () => {
-  let resultComments = [];
-  array.forEach((item) => {
-    resultComments.push(array[item]);
-  });
-  return resultComments;
-};
-
-createCommentsArray();
-
-console.log(resultComments);
