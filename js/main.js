@@ -43,15 +43,23 @@ const personalMovieDB = {
   },
   toggleVisibleMyDB: () => {
     if(personalMovieDB.privat){ 
-       
+      personalMovieDB.privat = false;
     } else {
       personalMovieDB.privat = true;
     }
   },
   writeYoureGenres: () => {
     for (let i = 1; i <= 3; i++) {
-       const genre = prompt (`Ваш любимый жанр под номером ${i}`); // Интерполяция работает только в бэктиках (вставка в строку значения)
-       personalMovieDB.genres[i - 1] = genre; // если не испольховать i - 1, то первый элемент массива будет пустой empty
+       let genre = prompt (`Ваш любимый жанр под номером ${i}`); // Интерполяция работает только в бэктиках (вставка в строку значения)
+       if (genre === "" || genre == null) {
+          console.log("Вы ввели не то");
+          i--;
+       } else {
+        personalMovieDB.genres[i - 1] = genre; // если не испольховать i - 1, то первый элемент массива будет пустой empty
+       }
     }
+    personalMovieDB.genres.forEach((item, i) => {
+      console.log(`Любимый жанр ${i + 1} - это ${item}`);
+    });
   }
 };
