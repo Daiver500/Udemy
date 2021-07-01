@@ -45,3 +45,4 @@
 console.log(typeof(Boolean("4")));
 
 console.log(typeof(!!"4444"));
+
