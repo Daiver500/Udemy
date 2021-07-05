@@ -43,13 +43,19 @@ movieDB.movies.sort();
 //newElement.textContent = movieDB.movies[2];
 //moviesList.prepend(newElement);
 
+movieDB.movies.forEach((item, i) => {
+    moviesList.innerHTML += `<li class="promo__interactive-item">${i+1 + "."} ${item}
+    <div class="delete"></div>
+  </li>`;
+});
 
-
+const addMovie = () => {
 movieDB.movies.forEach((item, i) => {
   moviesList.innerHTML += `<li class="promo__interactive-item">${i+1 + "."} ${item}
   <div class="delete"></div>
 </li>`;
 });
+};
 
 //i в вышеуказанном случае это нумерация, + 1 для того. чтобы список начинался с 1, а не с 0, так как в массивах идет нумерация с 0;
 
@@ -58,3 +64,19 @@ movieDB.movies.forEach((item, i) => {
 
 //a = a + "aaa";
 //a += "aaa"; //тоже самое, что и верх
+
+const addingInput = document.querySelector(".adding__input");
+const addButton = document.querySelector("button");
+const MAX__NUMBERS = 21;
+
+
+
+addButton.addEventListener("click", (evt) => {
+   if(addingInput !== "") {
+    evt.preventDefault();
+    movieDB.movies.push(addingInput.value);
+    console.log(movieDB.movies)
+    addMovie();
+    addingInput.value = "";
+   }
+});
