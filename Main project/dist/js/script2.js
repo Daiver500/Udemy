@@ -1,3 +1,5 @@
+//Tabs
+
 const tabsContent = document.querySelectorAll(".tabcontent");
 const tabsHeader = document.querySelectorAll(".tabheader__item");
 const tabsHeaderContainer = document.querySelector(".tabheader__items");
