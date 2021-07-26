@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
    });
 
-   // Timer 
+// Timer 
 
    const deadline = '2021-07-31';   // конечная дата
 
