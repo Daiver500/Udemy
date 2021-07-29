@@ -8,7 +8,7 @@ const numNew = new Function(3); // старое, не используется
 // Стандарт ES5 (сейчас такой функционал создается с помощью классов, которых изначально не было)
 
 const user = function(name, id) {
-  this.name = name;     // this не работает в стрелочных функциях
+  this.name = name;     // у стрелочной функции нет своего this, она будет его брать у своего родителя
   this.id = id;
   this.human = true;
   this.hello = function () {
