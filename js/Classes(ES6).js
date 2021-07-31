@@ -13,9 +13,9 @@ class Rectangle {                // шаблон
 
 class coloredRectanglesWithText extends Rectangle {   // наследование параметров от предыдущего класса
     constructor (height, width, text, bgColor) {
-      super(height, width);  
+      super(height, width);     // вызывает тоже самое, что было у родителя, то есть за счет наследования height, width перейдут сюда, super всегда должно быть на первом месте в конструкторе
       this.text = text;
-      this.bgColor = bgColor;                                      // вызывает тоже самое, что было у родителя, то есть за счет наследования height, width перейдут сюда, super всегда должно быть на первом месте в конструкторе
+      this.bgColor = bgColor;                                      
     }
     showMyProps () {
         console.log(`Текст ${this.text}, цвет ${this.bgColor}`);
