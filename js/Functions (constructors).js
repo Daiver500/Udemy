@@ -7,7 +7,7 @@ const numNew = new Function(3); // старое, не используется
 
 // Стандарт ES5 (сейчас такой функционал создается с помощью классов, которых изначально не было)
 
-const user = function(name, id) {
+const User = function(name, id) {  // с большой буквы
   this.name = name;     // у стрелочной функции нет своего this, она будет его брать у своего родителя
   this.id = id;
   this.human = true;
@@ -16,12 +16,12 @@ const user = function(name, id) {
   };
 };
 
-user.prototype.exit = function( ) {
+User.prototype.exit = function( ) {
   console.log(`user ${this.name} left`);
 };
 
-const ivan = new user("Ivan", 28);
-const alex = new user("Alex", 29);
+const ivan = new User("Ivan", 28);
+const alex = new User("Alex", 29);
 
 ivan.exit();
 
@@ -35,7 +35,7 @@ console.log(alex);
 
 // пример создания через классы
 
-class userNew {
+class UserNew {
   constructor(name, id) {
     this.name = name;     
     this.id = id;
@@ -48,3 +48,5 @@ class userNew {
     console.log(`user ${this.name} left`);
   }
 }
+
+// классы как и функции конструкторы служат для создания новых объектов
