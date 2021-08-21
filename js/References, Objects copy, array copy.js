@@ -24,15 +24,6 @@ console.log(obj);
 // чтобы в копии менять данные и не затрагивать оригинал надо копировать объект, создавая новый объект)
 
 // Копирование объектов через функцию (создание нового объекта для его изменения)
-
-const copyObj = (mainObj) => {
-  let objCopy = {};
-   for (let i in mainObj) {
-    objCopy[i] = mainObj[i];
-  }
-  return objCopy;
-};
-
 const numbers = {
   a:2,
   b:5,
@@ -40,6 +31,14 @@ const numbers = {
     x:7,
     y:4
   }
+};
+
+const copyObj = (mainObj) => {
+  let objCopy = {};
+   for (let i in mainObj) {
+    objCopy[i] = mainObj[i];
+  }
+  return objCopy;
 };
 
 const newNumbers = copyObj(numbers);
