@@ -171,7 +171,7 @@ class MenuCard {
         newElement.classList.add(item);
       });
     }
-    newElement.innerHTML = 
+     newElement.innerHTML = 
     `<img src=${this.img} alt=${this.alt}>
     <h3 class="menu__item-subtitle">${this.title}</h3>
     <div class="menu__item-descr">${this.text}</div>
@@ -217,6 +217,7 @@ class MenuCard {
     "menu__item"
   );
   newCardThird.render();
+
 
   // альтернативный вариант new MenuCard().render()
 });
