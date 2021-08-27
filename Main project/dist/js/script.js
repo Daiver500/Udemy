@@ -196,6 +196,15 @@ class MenuCard {
   );
   newCard.render();
 
+  
+  let Ivan = () => {newCard.render()}
+  const test = () => {
+    const btn = document.querySelector(".btn__test");
+    btn.addEventListener("click", Ivan)
+  }
+  test()
+
+
   const newCardSecond = new MenuCard(
     "img/tabs/elite.jpg",
     "elite",
@@ -217,6 +226,8 @@ class MenuCard {
     "menu__item"
   );
   newCardThird.render();
+
+  
 
 
   // альтернативный вариант new MenuCard().render()
