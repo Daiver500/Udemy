@@ -5,7 +5,7 @@
 // Старая информация 
 
 const inputRub = document.querySelector("#rub");
-const inputUSD = document.querySelector("#usd");
+const inputUsd = document.querySelector("#usd");
 
 const serverRequest = () => {
   const request = new XMLHttpRequest();  // новый запрос http
@@ -20,7 +20,26 @@ const serverRequest = () => {
   // как она закодирована, чтобы сервер понимал, что он принимает в себя
   // http заголовки
   request.send();
+  const checkStateReadiness = () => {
+   if (request.status === 200) { // смотри значения кодов в википедии
+     console.log(request.response)
+     const data = JSON.parse(request.response) // получаем объект JS, который мы можем использовать
+     inputUsd.value = (inputRub.value / data.current.usd).toFixed(2); // округляем до двух чисел после запятой
+   } else {
+     inputUsd.value = "Не так что-то"; 
+   }
+  }
+  request.addEventListener("load", checkStateReadiness)
   // отправляем информацию, в зависимости от метода GET или POST заполняется по разному 
+  // status ответ от сервера в виде кода (200, 404 и т.д.)
+  // statusText текст который приписывается к коду ответа
+  // response ответ от сервера в виде кода от backend
+  // readyState текущее состояние нашего запроса
+  // readystatechange отслеживает статус готовности нашего запроса в текущий момент времени
+  // load срабатывает когда наш запрос полностью загрузился и мы получили какой-то результат
+  // ответ от сервера
 }
 
-inputRub.addEventListener("input", serverRequest )
+inputRub.addEventListener("input", serverRequest)
+
+// запросы GET и POST работают только на сервере!!! 
