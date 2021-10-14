@@ -136,13 +136,12 @@ const showModalByScroll = () => {
     window.removeEventListener("scroll", showModalByScroll);
    }
 };
-window.addEventListener("scroll", showModalByScroll); 
-
 // {once: true} это заставляет обработчик сработать один раз, но в данном случае не подходит
 // сдвинуть колд вправо tab
 // сдвинуть код влево shift+tab
+window.addEventListener("scroll", showModalByScroll); 
 
-// Классы для карточек 
+// Классы для карточек, создаем новые элементы страницы
 
 class MenuCard {
   constructor (img, alt, title, text, price, parentSelector, ...classes) {
@@ -216,10 +215,67 @@ class MenuCard {
     ".menu .container",
     "menu__item"
   );
+   // альтернативный вариант new MenuCard().render()
   newCardThird.render();
+ 
+  // Отправка данных формы на сервер через XMLHttprequest или JSON
 
-  
+  const forms = document.querySelectorAll("form");
+  const  message = {                         // создаем обхект с текстовыми сообщениями
+    loading: "Загрузка",
+    success: "Спасибо и до свидания",
+    error: "Ошибка"
+  }
+
+  const postData = (form) => {
+    const formSendingHandler = (evt) => {
+      evt.preventDefault();
+     
+      const statusMessage = document.createElement("div");    // создаем новый элемент с текстовым сообщением и добавляем его на страницу
+      statusMessage.classList.add("status");
+      statusMessage.textContent = message.loading;
+      form.append(statusMessage);
+      
+      const request = new XMLHttpRequest();
+      request.open("POST", "server.php");  // куда отправляем данные
+
+      // request.setRequestHeader("Content-type", "application/json ");  // вариант ДЛЯ JSON !!! когда используется XMLHttpRequest заголовок на задается, т.к. он создается автоматом
+
+      const formData = new FormData(form);   // собираем данные из формы, которые будем отправлять, как аргумент передается форма с которой собираем данные
+      // !!! в html всегда обязательно указывать артрибут name="name" для интерактивных полей (input, textarea и т.д.) иначе FormData не найдет его !!!
+
+      // const object = {};                        
+      // formData.forEach(function(value, key) {  // ДЛЯ JSON  перебираем formData и формируем новый объект, так как JSON не примет formData другим образом
+        // object[key] = value;
+      // })
+
+      // const json = JSON.stringify(object); // ДЛЯ JSON 
+
+      // request.send(json); // ДЛЯ JSON 
+
+      request.send(formData); // отправляем данные  // меняем на request.send(object); ДЛЯ JSON 
+      
+      const loadData = () => {
+        if (request.status === 200) {
+           console.log(request.response);
+           statusMessage.textContent = message.success;
+           form.reset();   // очистка формы, также можно взять инпуты и сделать их value === "";
+           setTimeout( () => {   // удаляем сообщение через 2 секунды
+            statusMessage.remove();
+           }, 2000);
+        } else {
+          statusMessage.textContent = message.error;
+        }
+      }
+      request.addEventListener("load", loadData);
+
+    }
+    form.addEventListener("submit", formSendingHandler)
+  }
+
+  forms.forEach((item) => {   // для каждой формы запускаем функцию postData и передаем в нее как аргумент форму
+    postData(item);
+  });
 
 
-  // альтернативный вариант new MenuCard().render()
 });
