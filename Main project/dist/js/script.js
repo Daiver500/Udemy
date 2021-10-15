@@ -274,6 +274,7 @@ class MenuCard {
 
     }
     form.addEventListener("submit", formSendingHandler)
+    form.addEventListener("submit", hideModalWindow)
   }
 
   forms.forEach((item) => {   // для каждой формы запускаем функцию postData и передаем в нее как аргумент форму
