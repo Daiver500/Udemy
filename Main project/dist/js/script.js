@@ -222,7 +222,7 @@ class MenuCard {
 
   const forms = document.querySelectorAll("form");
   const  message = {                         // создаем обхект с текстовыми сообщениями
-    loading: "Загрузка",
+    loading: "img/spinner.svg",
     success: "Спасибо и до свидания",
     error: "Ошибка"
   }
@@ -231,9 +231,12 @@ class MenuCard {
     const formSendingHandler = (evt) => {
       evt.preventDefault();
      
-      const statusMessage = document.createElement("div");    // создаем новый элемент с текстовым сообщением и добавляем его на страницу
-      statusMessage.classList.add("status");
-      statusMessage.textContent = message.loading;
+      const statusMessage = document.createElement("img");    // создаем новый элемент с текстовым сообщением и добавляем его на страницу
+      statusMessage.src = message.loading;
+      statusMessage.style.cssText = `  
+        margin: 0 auto;
+        display: block;         
+      `;                                                // CSS стили пропишем inline
       form.append(statusMessage);
       
       const request = new XMLHttpRequest();
@@ -278,9 +281,6 @@ class MenuCard {
   });
  
   const showThanksModal = (message) => {                                    // сюда передаем как аргумент сообщение пользователю из объекта message
-    const previousModalDialog = document.querySelector(".modal__dialog");   
-    previousModalDialog.classList.add("hidden");                            // скрываем внутринности модального окна
-    openModalWindow();
     const thanksModal = document.createElement("div");                      // создаем новую начинку модального окна для сообщения пользователю
     thanksModal.classList.add("modal__dialog");           
     thanksModal.innerHTML = `
@@ -293,9 +293,6 @@ class MenuCard {
     document.querySelector(".modal").append(thanksModal);            // добавляем в модальное окно новое наполнение
     setTimeout(() => {                                               // через определенное время удаляем сообщение пользователю и возвращаем обратно возможность вызвать и отправить форму
       thanksModal.remove();
-      previousModalDialog.classList.add("show");
-      previousModalDialog.classList.remove("hidden");
-      hideModalWindow();
     }, 4000)
   }
 });
