@@ -102,7 +102,7 @@ const modalEscPressHandler = (evt) => {
 };
 
 const windowClickHandler = (evt) => {
-  if (evt.target === modal || evt.target.classList.contains("modal__close")) {
+  if (evt.target === modal) {
     hideModalWindow();
   }
 };
@@ -283,17 +283,25 @@ class MenuCard {
  
   const showThanksModal = (message) => {                                    // сюда передаем как аргумент сообщение пользователю из объекта message
     const thanksModal = document.createElement("div");                      // создаем новую начинку модального окна для сообщения пользователю
-    thanksModal.classList.add("modal__dialog");           
+    thanksModal.classList.add("modal__message");           
     thanksModal.innerHTML = `
+    <div class="modal__dialog">
       <div class="modal__content">
         <div class="modal__close" data-close>×
         </div>
         <div class="modal__title">${message}</div>
       </div>
+    <div>
     `; 
-    document.querySelector(".modal").append(thanksModal);            // добавляем в модальное окно новое наполнение
+    document.querySelector(".page").append(thanksModal);            // добавляем в модальное окно новое наполнение
     setTimeout(() => {                                               // через определенное время удаляем сообщение пользователю и возвращаем обратно возможность вызвать и отправить форму
       thanksModal.remove();
     }, 4000)
+    const modalMessage = document.querySelector(".modal__message");
+    const modalClose = modalMessage.querySelector(".modal__close");
+    const closeThanksModal = () => {
+      thanksModal.remove();
+    }
+    modalClose.addEventListener("click", closeThanksModal);
   }
-});
+ });
