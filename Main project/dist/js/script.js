@@ -102,7 +102,7 @@ const modalEscPressHandler = (evt) => {
 };
 
 const windowClickHandler = (evt) => {
-  if (evt.target === modal) {
+  if (evt.target === modal || evt.target.classList.contains("modal__close")) {
     hideModalWindow();
   }
 };
@@ -128,7 +128,7 @@ openModalButtons.forEach((item) => {
   item.addEventListener("click", openModalWindow);
 });
 
-const modalTimerId = setTimeout(openModalWindow, 5000); // запускаем модалку через 5 секунд
+const modalTimerId = setTimeout(openModalWindow, 50000); // запускаем модалку через 5 секунд
 
 const showModalByScroll = () => {
   if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight){   // пользователь докрутил до конца страницы (сравниваем видимый контент на странице + сколько уже прокручено со всей высотой скролла)
@@ -258,13 +258,13 @@ class MenuCard {
       const loadData = () => {
         if (request.status === 200) {
            console.log(request.response);
-           statusMessage.textContent = message.success;
+           showThanksModal(message.success);
            form.reset();   // очистка формы, также можно взять инпуты и сделать их value === "";
-           setTimeout( () => {   // удаляем сообщение через 2 секунды
-            statusMessage.remove();
-           }, 2000);
+            // удаляем сообщение через 2 секунды
+           statusMessage.remove();
+
         } else {
-          statusMessage.textContent = message.error;
+          showThanksModal(message.error);
         }
       }
       request.addEventListener("load", loadData);
@@ -276,6 +276,26 @@ class MenuCard {
   forms.forEach((item) => {   // для каждой формы запускаем функцию postData и передаем в нее как аргумент форму
     postData(item);
   });
-
-
+ 
+  const showThanksModal = (message) => {                                    // сюда передаем как аргумент сообщение пользователю из объекта message
+    const previousModalDialog = document.querySelector(".modal__dialog");   
+    previousModalDialog.classList.add("hidden");                            // скрываем внутринности модального окна
+    openModalWindow();
+    const thanksModal = document.createElement("div");                      // создаем новую начинку модального окна для сообщения пользователю
+    thanksModal.classList.add("modal__dialog");           
+    thanksModal.innerHTML = `
+      <div class="modal__content">
+        <div class="modal__close" data-close>×
+        </div>
+        <div class="modal__title">${message}</div>
+      </div>
+    `; 
+    document.querySelector(".modal").append(thanksModal);            // добавляем в модальное окно новое наполнение
+    setTimeout(() => {                                               // через определенное время удаляем сообщение пользователю и возвращаем обратно возможность вызвать и отправить форму
+      thanksModal.remove();
+      previousModalDialog.classList.add("show");
+      previousModalDialog.classList.remove("hidden");
+      hideModalWindow();
+    }, 4000)
+  }
 });
