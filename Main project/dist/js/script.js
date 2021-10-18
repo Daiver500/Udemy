@@ -237,7 +237,8 @@ class MenuCard {
         margin: 0 auto;
         display: block;         
       `;                                                // CSS стили пропишем inline
-      form.append(statusMessage);
+      //form.append(statusMessage);
+      form.insertAdjacentElement("afterEnd", statusMessage);          // вставляем элемент после формы
       
       const request = new XMLHttpRequest();
       request.open("POST", "server.php");  // куда отправляем данные
