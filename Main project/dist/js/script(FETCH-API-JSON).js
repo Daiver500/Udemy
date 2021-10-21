@@ -236,32 +236,36 @@ class MenuCard {
       statusMessage.style.cssText = `  
         margin: 0 auto;
         display: block;         
-      `;                                                // CSS стили пропишем inline
-      //form.append(statusMessage);
-      form.insertAdjacentElement("afterEnd", statusMessage);          // вставляем элемент после формы
+      `;                                                                   // CSS стили пропишем inline
+      form.insertAdjacentElement("afterEnd", statusMessage);              // вставляем элемент после формы
       
-      const request = new XMLHttpRequest();
-      request.open("POST", "server.php");  // куда отправляем данные
-
       const formData = new FormData(form);   // собираем данные из формы, которые будем отправлять, как аргумент передается форма с которой собираем данные
-      // !!! в html всегда обязательно указывать артрибут name="name" для интерактивных полей (input, textarea и т.д.) иначе FormData не найдет его !!!
+                                             // !!! в html всегда обязательно указывать артрибут name="name" для интерактивных полей (input, textarea и т.д.) иначе FormData не найдет его !!!
 
-      request.send(formData); // отправляем данные 
-      
-      const loadData = () => {
-        if (request.status === 200) {
-           console.log(request.response);
-           showThanksModal(message.success);
-           form.reset();   // очистка формы, также можно взять инпуты и сделать их value === "";
-            // удаляем сообщение через 2 секунды
-           statusMessage.remove();
+      const object = {};                        
+        formData.forEach(function(value, key) {  // ДЛЯ JSON  перебираем formData и формируем новый объект, так как JSON не примет formData другим образом
+          object[key] = value;
+      })
 
-        } else {
-          showThanksModal(message.error);
-        }
-      }
-      request.addEventListener("load", loadData);
+      const json = JSON.stringify(object);      // ДЛЯ JSON подготтавливаем данные для сервера
 
+      fetch("server.php", {                     // обращаемся к серверу 
+        method: "POST",                          // отправляем информацию
+        headers: {
+          "Content-type": "application/json "       //заголовки нужны для отправки JSON
+        },
+        body: json                             // сюда передаем json
+      })
+      .then(data => data.text())                // превращаем данные в текст
+      .then(data => {                             // с сервера вернется какая-то информация
+        console.log(data);
+        showThanksModal(message.success);                                       
+        statusMessage.remove();                      // удаляем сообщение через 2 секунды
+      }).catch(() => {
+        showThanksModal(message.error);                // если внутри fetch promise попадает на ошибку (404, 502 и т.д.), то reject не будет и promise выполниться, ошибка сработает только при отсутствии интернета
+      }).finally(() => {
+        form.reset();                              // очистка формы, также можно взять инпуты и сделать их value === "";
+      })   
     }
     form.addEventListener("submit", formSendingHandler)
     form.addEventListener("submit", hideModalWindow)
@@ -293,5 +297,5 @@ class MenuCard {
       thanksModal.remove();
     }
     modalClose.addEventListener("click", closeThanksModal);
-  }   
+  }      
  });

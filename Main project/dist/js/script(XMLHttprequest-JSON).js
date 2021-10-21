@@ -243,10 +243,19 @@ class MenuCard {
       const request = new XMLHttpRequest();
       request.open("POST", "server.php");  // куда отправляем данные
 
+      request.setRequestHeader("Content-type", "application/json ");  // вариант ДЛЯ JSON !!! когда используется XMLHttpRequest заголовок на задается, т.к. он создается автоматом
+
       const formData = new FormData(form);   // собираем данные из формы, которые будем отправлять, как аргумент передается форма с которой собираем данные
       // !!! в html всегда обязательно указывать артрибут name="name" для интерактивных полей (input, textarea и т.д.) иначе FormData не найдет его !!!
 
-      request.send(formData); // отправляем данные 
+      const object = {};                        
+        formData.forEach(function(value, key) {  // ДЛЯ JSON  перебираем formData и формируем новый объект, так как JSON не примет formData другим образом
+          object[key] = value;
+      })
+
+      const json = JSON.stringify(object); // ДЛЯ JSON подготтавливаем данные для сервера
+
+      request.send(json); // отправляем данные  
       
       const loadData = () => {
         if (request.status === 200) {
@@ -293,5 +302,7 @@ class MenuCard {
       thanksModal.remove();
     }
     modalClose.addEventListener("click", closeThanksModal);
-  }   
+  }      
+
+
  });
