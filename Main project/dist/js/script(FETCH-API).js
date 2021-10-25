@@ -218,7 +218,7 @@ class MenuCard {
    // альтернативный вариант new MenuCard().render()
   newCardThird.render();
  
-  // Отправка данных формы на сервер через XMLHttprequest или JSON
+  // Отправка данных формы на сервер через FETCH API
 
   const forms = document.querySelectorAll("form");
   const  message = {                         // создаем обхект с текстовыми сообщениями
