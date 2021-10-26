@@ -298,4 +298,8 @@ class MenuCard {
     }
     modalClose.addEventListener("click", closeThanksModal);
   }      
+
+  fetch("db.json")
+    .then(data => data.json())
+    .then(result => console.log(result))
  });
