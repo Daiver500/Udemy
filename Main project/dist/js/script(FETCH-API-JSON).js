@@ -257,7 +257,7 @@ class MenuCard {
       /*const object = {};                        
         formData.forEach(function(value, key) {  // ДЛЯ JSON  перебираем formData и формируем новый объект, так как JSON не примет formData другим образом
           object[key] = value;
-      })*/      // заменили на спобсоб ниже
+      })*/                                        // заменили на спобсоб ниже
 
       const json = JSON.stringify(Object.fromEntries(formData.entries())); // превращаем formData в массив массивов, затем в классический объект и затем в json
 
