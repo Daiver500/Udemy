@@ -218,7 +218,7 @@ class MenuCard {
    // альтернативный вариант new MenuCard().render()
   newCardThird.render();
  
-  // Отправка данных формы на сервер через XMLHttprequest или JSON
+  // Отправка и прием данных чере сервер JSON
 
   const forms = document.querySelectorAll("form");
   const  message = {                         // создаем обхект с текстовыми сообщениями
@@ -226,8 +226,20 @@ class MenuCard {
     success: "Спасибо и до свидания",
     error: "Ошибка"
   }
+                     
+  const postData = async (url, data) => {          // внутри функции будет асинхронный код, async и await всегда используются в паре
+    const result = await fetch(url, {              // здесь дожидаеся ответа await 
+      method: "POST",                          // отправляем информацию
+        headers: {
+          "Content-type": "application/json "       //заголовки нужны для отправки JSON
+        },
+        body: data 
+    });
 
-  const postData = (form) => {
+    return await result.json
+  }
+
+  const bindPostData = (form) => {
     const formSendingHandler = (evt) => {
       evt.preventDefault();
      
@@ -249,14 +261,14 @@ class MenuCard {
 
       const json = JSON.stringify(object);      // ДЛЯ JSON подготтавливаем данные для сервера
 
-      fetch("server.php", {                     // обращаемся к серверу 
+      /*fetch("server.php", {                     // обращаемся к серверу 
         method: "POST",                          // отправляем информацию
         headers: {
           "Content-type": "application/json "       //заголовки нужны для отправки JSON
         },
         body: json                             // сюда передаем json
-      })
-      .then(data => data.text())                // превращаем данные в текст
+      })*/
+      postData(" http://localhost:3000/requests", json)
       .then(data => {                             // с сервера вернется какая-то информация
         console.log(data);
         showThanksModal(message.success);                                       
@@ -272,7 +284,7 @@ class MenuCard {
   }
 
   forms.forEach((item) => {   // для каждой формы запускаем функцию postData и передаем в нее как аргумент форму
-    postData(item);
+    bindPostData(item);
   });
  
   const showThanksModal = (message) => {                                    // сюда передаем как аргумент сообщение пользователю из объекта message
