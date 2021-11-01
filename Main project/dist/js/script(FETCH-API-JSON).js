@@ -233,7 +233,7 @@ class MenuCard {
         headers: {
           "Content-type": "application/json "       //заголовки нужны для отправки JSON
         },
-        body: data 
+        body: data                                  // фукнцию postData можно испольоваться как универсальную с различными аргументами
     });
 
     return await result.json
@@ -254,21 +254,24 @@ class MenuCard {
       const formData = new FormData(form);   // собираем данные из формы, которые будем отправлять, как аргумент передается форма с которой собираем данные
                                              // !!! в html всегда обязательно указывать артрибут name="name" для интерактивных полей (input, textarea и т.д.) иначе FormData не найдет его !!!
 
-      const object = {};                        
+      /*const object = {};                        
         formData.forEach(function(value, key) {  // ДЛЯ JSON  перебираем formData и формируем новый объект, так как JSON не примет formData другим образом
           object[key] = value;
-      })
+      })*/      // заменили на спобсоб ниже
 
-      const json = JSON.stringify(object);      // ДЛЯ JSON подготтавливаем данные для сервера
+      const json = JSON.stringify(Object.fromEntries(formData.entries())); // превращаем formData в массив массивов, затем в классический объект и затем в json
 
-      /*fetch("server.php", {                     // обращаемся к серверу 
+      //  Object.entries(obj) преобразует объект в массив массивов [key, value]
+      //  Object.fromEntries(array); преобразует массив в объект
+
+      /*fetch("server.php", {                     // обращаемся к серверу, вынесли это в отдельную функцию PostData
         method: "POST",                          // отправляем информацию
         headers: {
           "Content-type": "application/json "       //заголовки нужны для отправки JSON
         },
         body: json                             // сюда передаем json
       })*/
-      postData(" http://localhost:3000/requests", json)
+      postData("http://localhost:3000/requests", json)  // ДЛЯ JSON подготтавливаем данные для сервера
       .then(data => {                             // с сервера вернется какая-то информация
         console.log(data);
         showThanksModal(message.success);                                       
