@@ -183,7 +183,44 @@ class MenuCard {
   }
 }
 
-  const newCard = new MenuCard(
+const getData = async (url) => {          // внутри функции будет асинхронный код, async и await всегда используются в паре, в данной строке получаем информацию
+  const result = await fetch(url);
+
+  if (!result.ok)           {             // проверяем прошел ли запрос
+     throw new Error (`Could not fetch ${url}, status: ${result.status}`);                  // выкидываем ошибку
+  }              
+  return await result.json ()
+}
+
+/*getData("http://localhost:3000/menu")                            // запрос к серверу
+  .then(data => {
+    data.forEach(({img, altimg, title, descr, price}) => {       // деструктуризация объекта 
+      new MenuCard(img, altimg, title, descr, price, ".menu .container").render()   // создание карточек на основе шаблона в классах (один из вариантов создания карточек)
+    });
+  });*/
+
+getData("http://localhost:3000/menu")                       // создание карточек без шаблонизации по классам
+.then(data => createCard(data));
+
+const createCard = (data) => {
+   data.forEach(({img, altimg, title, descr, price}) => {
+      const element = document.createElement("div");
+      element.classList.add("menu__item");
+      element.innerHTML = `
+      <img src=${img} alt=${altimg}>
+    <h3 class="menu__item-subtitle">${title}</h3>
+    <div class="menu__item-descr">${descr}</div>
+    <div class="menu__item-divider"></div>
+    <div class="menu__item-price">
+        <div class="menu__item-cost">Цена:</div>
+        <div class="menu__item-total"><span>${price}</span> руб/день</div>
+    </div>
+      `
+      document.querySelector(".menu .container").append(element);
+   })
+}
+
+  /*const newCard = new MenuCard(                        // заменили все это на данные с сервера (см выше getData), так как каждый раз генерировать карточку отдельно не верно
     "img/tabs/vegy.jpg",
     "vegy",
     'Меню "Фитнес"',
@@ -216,7 +253,7 @@ class MenuCard {
     "menu__item"
   );
    // альтернативный вариант new MenuCard().render()
-  newCardThird.render();
+  newCardThird.render();*/ 
  
   // Отправка и прием данных чере сервер JSON
 
@@ -236,7 +273,7 @@ class MenuCard {
         body: data                                  // фукнцию postData можно испольоваться как универсальную с различными аргументами
     });
 
-    return await result.json
+    return await result.json()
   }
 
   const bindPostData = (form) => {
@@ -257,7 +294,7 @@ class MenuCard {
       /*const object = {};                        
         formData.forEach(function(value, key) {  // ДЛЯ JSON  перебираем formData и формируем новый объект, так как JSON не примет formData другим образом
           object[key] = value;
-      })*/                                        // заменили на спобсоб ниже
+      })*/                                        // заменили на способ ниже
 
       const json = JSON.stringify(Object.fromEntries(formData.entries())); // превращаем formData в массив массивов, затем в классический объект и затем в json
 
