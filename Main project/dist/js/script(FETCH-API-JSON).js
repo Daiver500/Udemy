@@ -192,14 +192,14 @@ const getData = async (url) => {          // внутри функции буд�
   return await result.json ()
 }
 
-/*getData("http://localhost:3000/menu")                            // запрос к серверу
+getData("http://localhost:3000/menu")                            // запрос к серверу
   .then(data => {
     data.forEach(({img, altimg, title, descr, price}) => {       // деструктуризация объекта 
       new MenuCard(img, altimg, title, descr, price, ".menu .container").render()   // создание карточек на основе шаблона в классах (один из вариантов создания карточек)
     });
-  });*/
+  });
 
-getData("http://localhost:3000/menu")                       // создание карточек без шаблонизации по классам
+/*getData("http://localhost:3000/menu")                       // СОЗДАНИЕ КАРТОЧЕК БЕЗ ШАБЛОНИЗАЦИИ ЧЕРЕЗ КЛАССЫ
 .then(data => createCard(data));
 
 const createCard = (data) => {
@@ -218,7 +218,7 @@ const createCard = (data) => {
       `
       document.querySelector(".menu .container").append(element);
    })
-}
+}*/
 
   /*const newCard = new MenuCard(                        // заменили все это на данные с сервера (см выше getData), так как каждый раз генерировать карточку отдельно не верно
     "img/tabs/vegy.jpg",
