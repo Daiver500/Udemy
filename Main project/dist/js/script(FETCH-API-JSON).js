@@ -199,7 +199,14 @@ getData("http://localhost:3000/menu")                            // запрос
     });
   });
 
-/*getData("http://localhost:3000/menu")                       // СОЗДАНИЕ КАРТОЧЕК БЕЗ ШАБЛОНИЗАЦИИ ЧЕРЕЗ КЛАССЫ
+/*axios.get("http://localhost:3000/menu")                        // AXIOS служит для обращения к серверу (GEt\POST) без создания дополнительных функций
+.then(data => {
+  data.data.forEach(({img, altimg, title, descr, price}) => {       
+    new MenuCard(img, altimg, title, descr, price, ".menu .container").render()   
+  });
+});*/
+
+/*getData("http://localhost:3000/menu")                       // СОЗДАНИЕ КАРТОЧЕК БЕЗ ШАБЛОНИЗАЦИИ ПО КЛАССАМ
 .then(data => createCard(data));
 
 const createCard = (data) => {
@@ -220,45 +227,10 @@ const createCard = (data) => {
    })
 }*/
 
-  /*const newCard = new MenuCard(                        // заменили все это на данные с сервера (см выше getData), так как каждый раз генерировать карточку отдельно не верно
-    "img/tabs/vegy.jpg",
-    "vegy",
-    'Меню "Фитнес"',
-    'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-    9,
-    ".menu .container",
-    "menu__item",  // классы, которы идут в rest оператор
-    "big"
-  );
-  newCard.render();
-
-  const newCardSecond = new MenuCard(
-    "img/tabs/elite.jpg",
-    "elite",
-    'Меню “Премиум”',
-    'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-    9,
-    ".menu .container",
-    "menu__item"
-  );
-  newCardSecond.render();
-
-  const newCardThird = new MenuCard(
-    "img/tabs/post.jpg",
-    "post",
-    'Меню "Постное"',
-    'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-    9,
-    ".menu .container",
-    "menu__item"
-  );
-   // альтернативный вариант new MenuCard().render()
-  newCardThird.render();*/ 
- 
-  // Отправка и прием данных чере сервер JSON
+ // Отправка и прием данных чере сервер JSON
 
   const forms = document.querySelectorAll("form");
-  const  message = {                         // создаем обхект с текстовыми сообщениями
+  const  message = {                         // создаем объект с текстовыми сообщениями
     loading: "img/spinner.svg",
     success: "Спасибо и до свидания",
     error: "Ошибка"
