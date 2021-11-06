@@ -332,7 +332,25 @@ const createCard = (data) => {
   const slides = document.querySelectorAll(".offer__slide");
   const previousSlideButton = document.querySelector(".offer__slider-prev");
   const nextSlideButton = document.querySelector(".offer__slider-next");
+  const total = document.querySelector("#total");
+  const current = document.querySelector("#current");
   let currentSlide = 1;
+
+  const showCurrentSlide = () => {                // устанавливаем значение текущего слайда и вызываем эту функцию в showSlide
+    if (slides.length < 10) {
+      current.textContent = `0${currentSlide}`;
+    } else {
+      current.textContent = currentSlide;
+    }
+  }
+
+  const showSlidesQuantity = () => {                       // устанавливаем значение общего количества слайдов
+    if (slides.length < 10) {
+      total.textContent = `0${slides.length}`;
+    } else {
+      total.textContent = slides.length;
+    }
+  }
 
   const showSlides = (numberOfSlide) => {            // функция принимает n куда будет приходит номер текущего слайда
     if (numberOfSlide > slides.length) {
@@ -347,9 +365,11 @@ const createCard = (data) => {
     })
 
     slides[currentSlide - 1].style.display = "block"     // показываем только первый, так как массив начинается с 0, то указываем - 1;
+    showCurrentSlide()
   }
 
   showSlides(currentSlide);
+  showSlidesQuantity();
 
   const changeSlides = (numberOfSlide) => {
     showSlides(currentSlide = currentSlide + numberOfSlide);
