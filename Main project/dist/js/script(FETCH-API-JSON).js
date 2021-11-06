@@ -1,4 +1,4 @@
-// ТАБЫ
+// TABS
 
 window.addEventListener("DOMContentLoaded", () => {
   const tabsHeader = document.querySelectorAll(".tabheader__item");
@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
    });
 
-// ТАЙМЕР
+// TIMER
 
    const deadline = '2021-07-31';   // конечная дата
 
@@ -88,7 +88,7 @@ const setClock = (selector, endtime) => {    // сюда передаем два
 
 setClock('.timer', deadline);
 
-// МОДАЛЬНОЕ ОКНО
+// MODAL
 
 const openModalButtons = document.querySelectorAll(".btn_open_modal");
 const modal = document.querySelector(".modal");
@@ -141,7 +141,7 @@ const showModalByScroll = () => {
 // сдвинуть код влево shift+tab
 window.addEventListener("scroll", showModalByScroll); 
 
-// КЛАССЫ ДЛЯ КАРТОЧЕК И СОЗДАНИЯ ЭЛЕМЕНТОВ СТРАНИЦЫ (БЕЗ КЛАССОВ СМОТРИ В РАЗДЕЛЕ СЕРВЕР)
+// CLASSES FOR CARDS AND CARD CREATION (WITHOUT CLASSES LOOK FOR THE SERVER PART BELOW) 
 
 class MenuCard {
   constructor (img, alt, title, text, price, parentSelector, ...classes) {
@@ -183,7 +183,7 @@ class MenuCard {
   }
 }
 
-// ОТПРАВКА ДАННЫХ И ПРИЕМ С СЕРВЕРА FETCH API JSON
+// SERVER GET/POST FETCH API JSON
 
 const getData = async (url) => {          // внутри функции будет асинхронный код, async и await всегда используются в паре, в данной строке получаем информацию
   const result = await fetch(url);
@@ -327,6 +327,40 @@ const createCard = (data) => {
     .then(data => data.json())
     .then(result => console.log(result))
 
-  // СЛАЙДЕР
+  // SLIDER
+
+  const slides = document.querySelectorAll(".offer__slide");
+  const previousSlideButton = document.querySelector(".offer__slider-prev");
+  const nextSlideButton = document.querySelector(".offer__slider-next");
+  let currentSlide = 1;
+
+  const showSlides = (numberOfSlide) => {            // функция принимает n куда будет приходит номер текущего слайда
+    if (numberOfSlide > slides.length) {
+      currentSlide = 1;                      // если n больше количества слайдов, то идет возврат на первый слайд
+    }
+    if (numberOfSlide < 1) {
+      currentSlide = slides.length;          // если n меньше количества слайдов, то идет возврат на последний слайд
+    }
+
+    slides.forEach((item) => {               // скрываем все слайды
+      item.style.display = "none"
+    })
+
+    slides[currentSlide - 1].style.display = "block"     // показываем только первый, так как массив начинается с 0, то указываем - 1;
+  }
+
+  showSlides(currentSlide);
+
+  const changeSlides = (numberOfSlide) => {
+    showSlides(currentSlide = currentSlide + numberOfSlide);
+  }
+
+  previousSlideButton.addEventListener("click", () => {
+    changeSlides(-1);
+  })
+
+  nextSlideButton.addEventListener("click", () => {
+    changeSlides(+1);
+  })
 
  });
