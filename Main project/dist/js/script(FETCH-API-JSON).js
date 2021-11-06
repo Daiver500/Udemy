@@ -1,4 +1,4 @@
-//Tabs 
+// ТАБЫ
 
 window.addEventListener("DOMContentLoaded", () => {
   const tabsHeader = document.querySelectorAll(".tabheader__item");
@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
    });
 
-// Timer 
+// ТАЙМЕР
 
    const deadline = '2021-07-31';   // конечная дата
 
@@ -88,7 +88,7 @@ const setClock = (selector, endtime) => {    // сюда передаем два
 
 setClock('.timer', deadline);
 
-// Modal
+// МОДАЛЬНОЕ ОКНО
 
 const openModalButtons = document.querySelectorAll(".btn_open_modal");
 const modal = document.querySelector(".modal");
@@ -141,7 +141,7 @@ const showModalByScroll = () => {
 // сдвинуть код влево shift+tab
 window.addEventListener("scroll", showModalByScroll); 
 
-// Классы для карточек, создаем новые элементы страницы
+// КЛАССЫ ДЛЯ КАРТОЧЕК И СОЗДАНИЯ ЭЛЕМЕНТОВ СТРАНИЦЫ (БЕЗ КЛАССОВ СМОТРИ В РАЗДЕЛЕ СЕРВЕР)
 
 class MenuCard {
   constructor (img, alt, title, text, price, parentSelector, ...classes) {
@@ -182,6 +182,8 @@ class MenuCard {
   this.parent.append(newElement);
   }
 }
+
+// ОТПРАВКА ДАННЫХ И ПРИЕМ С СЕРВЕРА FETCH API JSON
 
 const getData = async (url) => {          // внутри функции будет асинхронный код, async и await всегда используются в паре, в данной строке получаем информацию
   const result = await fetch(url);
@@ -226,8 +228,6 @@ const createCard = (data) => {
       document.querySelector(".menu .container").append(element);
    })
 }*/
-
- // Отправка и прием данных чере сервер JSON
 
   const forms = document.querySelectorAll("form");
   const  message = {                         // создаем объект с текстовыми сообщениями
@@ -326,4 +326,7 @@ const createCard = (data) => {
   fetch("db.json")
     .then(data => data.json())
     .then(result => console.log(result))
+
+  // СЛАЙДЕР
+
  });
