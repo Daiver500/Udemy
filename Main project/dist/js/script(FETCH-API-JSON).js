@@ -334,9 +334,9 @@ const createCard = (data) => {
   const nextSlideButton = document.querySelector(".offer__slider-next");
   const total = document.querySelector("#total");
   const current = document.querySelector("#current");
-  let currentSlide = 1;
+  let currentSlide = 1;                           
 
-  const showCurrentSlide = () => {                // устанавливаем значение текущего слайда и вызываем эту функцию в showSlide
+  const showCurrentSlideNumber = () => {                       // устанавливаем значение конкретного слайда
     if (slides.length < 10) {
       current.textContent = `0${currentSlide}`;
     } else {
@@ -344,19 +344,20 @@ const createCard = (data) => {
     }
   }
 
-  const showSlidesQuantity = () => {                       // устанавливаем значение общего количества слайдов
+  const showTotalSlidesQuantity = () => {                       // устанавливаем значение общего количества слайдов
     if (slides.length < 10) {
       total.textContent = `0${slides.length}`;
     } else {
       total.textContent = slides.length;
     }
   }
+  showTotalSlidesQuantity();
 
-  const showSlides = (numberOfSlide) => {            // функция принимает n куда будет приходит номер текущего слайда
-    if (numberOfSlide > slides.length) {
+  const showSlides = (number) => {            // функция принимает n куда будет приходит номер текущего слайда
+    if (number > slides.length) {
       currentSlide = 1;                      // если n больше количества слайдов, то идет возврат на первый слайд
     }
-    if (numberOfSlide < 1) {
+    if (number < 1) {
       currentSlide = slides.length;          // если n меньше количества слайдов, то идет возврат на последний слайд
     }
 
@@ -364,15 +365,14 @@ const createCard = (data) => {
       item.style.display = "none"
     })
 
-    slides[currentSlide - 1].style.display = "block"     // показываем только первый, так как массив начинается с 0, то указываем - 1;
-    showCurrentSlide()
+    slides[currentSlide - 1].style.display = "block"     // показываем только первый, так как массив начинается с 0, то указываем - 1, так как currentSlide = 1;
+    showCurrentSlideNumber()                                   // запускаем функции показа номера конкретного слайда
   }
-
   showSlides(currentSlide);
-  showSlidesQuantity();
+  
 
-  const changeSlides = (numberOfSlide) => {
-    showSlides(currentSlide = currentSlide + numberOfSlide);
+  const changeSlides = (number) => {
+    showSlides(currentSlide = currentSlide + number);
   }
 
   previousSlideButton.addEventListener("click", () => {
