@@ -327,9 +327,9 @@ const createCard = (data) => {
     .then(data => data.json())
     .then(result => console.log(result))
 
-  // SLIDER
+  // SLIDER VARIANT 1  (скрытие карточек)
 
-  const slides = document.querySelectorAll(".offer__slide");
+  /*const slides = document.querySelectorAll(".offer__slide");
   const previousSlideButton = document.querySelector(".offer__slider-prev");
   const nextSlideButton = document.querySelector(".offer__slider-next");
   const total = document.querySelector("#total");
@@ -381,6 +381,83 @@ const createCard = (data) => {
 
   nextSlideButton.addEventListener("click", () => {
     changeSlides(+1);
+  })*/
+
+  // SLIDER VARIANT 2 (проллистывание карточек)
+    
+  const slides = document.querySelectorAll(".offer__slide");
+  const previousSlideButton = document.querySelector(".offer__slider-prev");
+  const nextSlideButton = document.querySelector(".offer__slider-next");
+  const total = document.querySelector("#total");
+  const current = document.querySelector("#current");
+  const slidesWrapper = document.querySelector(".offer__slider-wrapper");
+  const slidesInner = document.querySelector(".offer__slider-inner");
+  const width = window.getComputedStyle(slidesWrapper).width;                               // ширина блока где находятся слайдеры
+  let currentSlide = 1; 
+  let offset = 0;                                                  // на какое расстояние мы смещаемся, отсчет от 0   
+
+  const showTotalSlidesQuantity = () => {                       // устанавливаем значение общего количества слайдов
+    if (slides.length < 10) {
+      total.textContent = `0${slides.length}`;
+      current.textContent = `0${currentSlide}`;
+    } else {
+      total.textContent = slides.length;
+      current.textContent = currentSlide;
+    }
+  }
+  showTotalSlidesQuantity();
+
+  slidesInner.style.width = 100 * slides.length + "%";             // задаем внутренней обложке общую ширину (от количества всех слайдов)
+  slidesInner.style.display = "flex";                              
+  slidesInner.style.transition = "0.5s all";                       // плавное смещение всех слайдов
+  slidesWrapper.style.overflow = "hidden";
+  
+  slides.forEach((slide) => {
+    slide.style.width = width;                                     // каждому слайду устанавливаем ширину равную ширине обертки, все слайды будут одинаковой ширины и внутри обертки
   })
+
+
+  nextSlideButton.addEventListener("click", () => {
+    if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {                 // если отступ будет равен ширине всех слайдов, то возвращаем отступ к базовому значению, также width превращаем в число унарным + и отрезаем через slice "px"
+      offset = 0;
+    }  else {
+      offset = offset + +width.slice(0, width.length - 2);                       // в противоположном случае смещаем на ширину одного слайда (+width.slice(0, width.length - 2))
+    }                                                                                // ширина всех слайдов +width.slice(0, width.length - 2) * (slides.length - 1)
+    slidesInner.style.transform = `translateX(-${offset}px)`                         // передвигаем элемент по оси X влево при клике
+
+    if (currentSlide === slides.length) {                                   // если нумерация слайдов равна количеству слайдов, то возвращаем значение к базовому
+      currentSlide = 1;
+    } else {
+      currentSlide++;                                       // в ином случае увеличиваем значение на 1
+    }
+
+    if (slides.length < 10) {
+      current.textContent =  `0${currentSlide}`;
+    } else {
+      current.textContent =  currentSlide;
+  }
+  })
+
+  previousSlideButton.addEventListener("click", () => {                               
+    if (offset === 0) {                                                            // если мы на первом слайде, то переносимся на последний       
+      offset = +width.slice(0, width.length - 2) * (slides.length - 1)
+    }  else {
+      offset = offset - +width.slice(0, width.length - 2);                      
+    }                                           
+    slidesInner.style.transform = `translateX(-${offset}px)`                 // передвигаем элемент по оси X вправо при клике     
+    
+    if (currentSlide === 1) {                                  // если нумерация слайдов равна 1, то возвращаем значение к значению последнего слайда
+      currentSlide = slides.length; 
+  } else {
+      currentSlide--;                                           // в ином случае уменьшаем значение на 1
+  }
+
+  if (slides.length < 10) {
+      current.textContent =  `0${currentSlide}`;
+  } else {
+      current.textContent = currentSlide;
+  }
+  })
+
 
  });
