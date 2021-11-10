@@ -386,6 +386,7 @@ const createCard = (data) => {
   // SLIDER VARIANT 2 (проллистывание карточек)
     
   const slides = document.querySelectorAll(".offer__slide");
+  const slider = document.querySelector(".offer__slider")
   const previousSlideButton = document.querySelector(".offer__slider-prev");
   const nextSlideButton = document.querySelector(".offer__slider-next");
   const total = document.querySelector("#total");
@@ -416,6 +417,19 @@ const createCard = (data) => {
     slide.style.width = width;                                     // каждому слайду устанавливаем ширину равную ширине обертки, все слайды будут одинаковой ширины и внутри обертки
   })
 
+  slider.style.position = "relative";
+
+  const dots = document.createElement("ol");
+  dots.classList.add("carousel-indicators");
+  slider.append(dots);
+
+  for (let i = 0; i < slides.length; i++) {
+     const dot = document.createElement("li");
+     dot.setAttribute("data-slide-to", i + 1);
+     dot.classList.add("dot")
+     dots.append(dot)
+  };
+ 
 
   nextSlideButton.addEventListener("click", () => {
     if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {                 // если отступ будет равен ширине всех слайдов, то возвращаем отступ к базовому значению, также width превращаем в число унарным + и отрезаем через slice "px"
