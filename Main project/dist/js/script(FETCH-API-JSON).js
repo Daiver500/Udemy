@@ -417,17 +417,22 @@ const createCard = (data) => {
     slide.style.width = width;                                     // каждому слайду устанавливаем ширину равную ширине обертки, все слайды будут одинаковой ширины и внутри обертки
   })
 
-  slider.style.position = "relative";
+  slider.style.position = "relative";                            
 
-  const dots = document.createElement("ol");
+  const dots = document.createElement("ol");                     // создаем список для кнопок переключения слайдов
+  const dotsArray = [];                                          // создаем пустой массив
   dots.classList.add("carousel-indicators");
   slider.append(dots);
 
-  for (let i = 0; i < slides.length; i++) {
+  for (let i = 0; i < slides.length; i++) {                       // создаем кнопки переключения слайдов в количестве совпадающим с количеством слайдов
      const dot = document.createElement("li");
-     dot.setAttribute("data-slide-to", i + 1);
+     dot.setAttribute("data-slide-to", i + 1);                    // пронумеровываем каждую кнопку
      dot.classList.add("dot")
+     if (i === 0) {
+       dot.style.opacity = 1;                                     // задаем активную кнопку через JS (без CSS)
+     }
      dots.append(dot)
+     dotsArray.push(dot);                                         // помещаем в массив наши точки
   };
  
 
@@ -449,7 +454,11 @@ const createCard = (data) => {
       current.textContent =  `0${currentSlide}`;
     } else {
       current.textContent =  currentSlide;
-  }
+    }
+    dotsArray.forEach((dot) => {
+      dot.style.opacity = "0.5"
+    });
+    dotsArray[currentSlide-1].style.opacity = "1";        // так как массив начинается с 0, то указываем - 1, так как currentSlide = 1;
   })
 
   previousSlideButton.addEventListener("click", () => {                               
@@ -469,9 +478,34 @@ const createCard = (data) => {
   if (slides.length < 10) {
       current.textContent =  `0${currentSlide}`;
   } else {
-      current.textContent = currentSlide;
+    current.textContent = currentSlide;
   }
-  })
-
-
+  dotsArray.forEach((dot) => {
+    dot.style.opacity = "0.5"
+  });
+  dotsArray[currentSlide-1].style.opacity = "1";
  });
+
+
+ dotsArray.forEach((dot) => {
+  dot.addEventListener('click', (evt) => {
+      const slideTo = evt.target.getAttribute('data-slide-to');  // находим все кнопки по атрибуту, который присвоили ранее
+
+      currentSlide = slideTo;                                         
+      offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+
+      slidesInner.style.transform = `translateX(-${offset}px)`;
+
+      if (slides.length < 10) {
+          current.textContent =  `0${currentSlide}`;
+      } else {
+          current.textContent =  currentSlide;
+      }
+
+      dotsArray.forEach((dot) => {
+        dot.style.opacity = "0.5"
+      });
+      dotsArray[currentSlide-1].style.opacity = "1";
+    });
+  });
+});
