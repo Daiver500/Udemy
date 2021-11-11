@@ -455,7 +455,7 @@ const createCard = (data) => {
     } else {
       current.textContent =  currentSlide;
     }
-    dotsArray.forEach((dot) => {
+    dotsArray.forEach((dot) => {                    // перебираем массив точек и присваиваем значение прозрачности при клике
       dot.style.opacity = "0.5"
     });
     dotsArray[currentSlide-1].style.opacity = "1";        // так как массив начинается с 0, то указываем - 1, так как currentSlide = 1;
