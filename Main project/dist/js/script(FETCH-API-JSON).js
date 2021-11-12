@@ -435,13 +435,16 @@ const createCard = (data) => {
      dotsArray.push(dot);                                         // помещаем в массив наши точки
   };
  
+  const deleteLetters = (string) => {                    // функция для замены значения width на числовое с помощью + и далее исключение "px" через replace
+     return +string.replace(/\D/g, "");
+  }
 
   nextSlideButton.addEventListener("click", () => {
-    if (offset === +width.slice(0, width.length - 2) * (slides.length - 1)) {                 // если отступ будет равен ширине всех слайдов, то возвращаем отступ к базовому значению, также width превращаем в число унарным + и отрезаем через slice "px"
+    if (offset === deleteLetters(width) * (slides.length - 1)) {                 // если отступ будет равен ширине всех слайдов, то возвращаем отступ к базовому значению, также width превращаем в число унарным + и заменяем "px" через ругулярное выражение
       offset = 0;
     }  else {
-      offset = offset + +width.slice(0, width.length - 2);                       // в противоположном случае смещаем на ширину одного слайда (+width.slice(0, width.length - 2))
-    }                                                                                // ширина всех слайдов +width.slice(0, width.length - 2) * (slides.length - 1)
+      offset = offset + deleteLetters(width);                       // в противоположном случае смещаем на ширину одного слайда (+width.replace(/\D/g, ""))
+    }                                                                                // ширина всех слайдов +width.replace(/\D/g, "") * (slides.length - 1)
     slidesInner.style.transform = `translateX(-${offset}px)`                         // передвигаем элемент по оси X влево при клике
 
     if (currentSlide === slides.length) {                                   // если нумерация слайдов равна количеству слайдов, то возвращаем значение к базовому
@@ -463,9 +466,9 @@ const createCard = (data) => {
 
   previousSlideButton.addEventListener("click", () => {                               
     if (offset === 0) {                                                            // если мы на первом слайде, то переносимся на последний       
-      offset = +width.slice(0, width.length - 2) * (slides.length - 1)
+      offset = deleteLetters(width) * (slides.length - 1)
     }  else {
-      offset = offset - +width.slice(0, width.length - 2);                      
+      offset = offset - deleteLetters(width);                      
     }                                           
     slidesInner.style.transform = `translateX(-${offset}px)`                 // передвигаем элемент по оси X вправо при клике     
     
@@ -492,7 +495,7 @@ const createCard = (data) => {
       const slideTo = evt.target.getAttribute('data-slide-to');  // находим все кнопки по атрибуту, который присвоили ранее
 
       currentSlide = slideTo;                                         
-      offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+      offset = deleteLetters(width) * (slideTo - 1);
 
       slidesInner.style.transform = `translateX(-${offset}px)`;
 
