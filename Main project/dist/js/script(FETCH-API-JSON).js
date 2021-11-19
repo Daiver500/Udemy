@@ -511,4 +511,6 @@ const createCard = (data) => {
       dotsArray[currentSlide-1].style.opacity = "1";
     });
   });
+
+  // CALCULATOR
 });

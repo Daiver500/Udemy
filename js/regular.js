@@ -14,8 +14,6 @@ const string = "my name is R2D2";
 console.log(string.match(/\w\d\w\d/i));  // находим R2D2 внутри строки
 console.log(string.match(/\D/ig))
 
-// ФЛАГИ   const reg = /n/g;  после второго слэша
-
 // \D не числа
 // \W не буквы
 
@@ -23,6 +21,8 @@ console.log(string.match(/\D/ig))
 // \w ищем все слова
 // \s ищем все пробелы
 // \ экранирование, чтобы искать конкретно
+
+// ФЛАГИ   const reg = /n/g;  после второго слэша
 
 // g глобальный поиск
 // i регистронезависмый поиск
