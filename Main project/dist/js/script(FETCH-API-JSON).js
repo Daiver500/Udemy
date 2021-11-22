@@ -515,11 +515,11 @@ const createCard = (data) => {
   // CALCULATOR
 
   const result = document.querySelector(".calculating__result span"); // поле вывода результата
-  let sex;                                                             // задаем все переменные, что вводит пользователь
+  let sex = "female";                                                             // дефолтное значение
   let height;                               
-  let weight;
+  let weight;                                              // задаем все переменные, что вводит пользователь
   let age;
-  let ratio;                                 // атрибут прописан в верстке дата атрибутами
+  let ratio = 1.375;                                 // атрибут прописан в верстке дата атрибутами дефолтное значение
 
   const calcTotal = () => {                                       
     if (!sex || !height || !weight || !age ||!ratio) {             // при отсутсивии данных выдаем ошибку
