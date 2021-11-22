@@ -513,4 +513,44 @@ const createCard = (data) => {
   });
 
   // CALCULATOR
+
+  const result = document.querySelector(".calculating__result span"); // поле вывода результата
+  let sex;                                                             // задаем все переменные, что вводит пользователь
+  let height;                               
+  let weight;
+  let age;
+  let ratio;                                 // атрибут прописан в верстке дата атрибутами
+
+  const calcTotal = () => {                                       
+    if (!sex || !height || !weight || !age ||!ratio) {             // при отсутсивии данных выдаем ошибку
+        result.textContent = "____"
+        return                                                     // досрочно прерываем функцию
+    } 
+
+    if (sex === "female") {                                         // если пол женский
+       result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio     // здесь берем формулу расчета каллорий и умножаем на уровень активности (см дата атрибуты в верстке у полей активности)
+    } else {
+      result.textContent = (88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio      // здесь тоже самое, что для женщин только для мужчин уже новая формула
+    }
+  }
+  calcTotal()
+
+  const getStaticInformation = (parentSelector, activeClass) => {              // как аргумент передаем родителя и класс активности
+     const elements = document.querySelectorAll(`${parentSelector} div`)         // получаем все дивы внутри родителя
+     document.querySelector(parentSelector).addEventListener("click", (evt) => {
+       if (evt.target.getAttribute("data-ratio")) {                            // если у элемента есть дата атрибут
+          ratio = evt.target.getAttribute("data-ratio")        // переменная ratio будет = значению, написанному в дата атрибуте в верстке
+       } else {
+         sex = evt.target.getAttribute("id");                       // обращаемся к полям у которых нет дата атрибута, а есть id
+       }
+       console.log(ratio,sex)
+
+       elements.forEach((item) => {                           // удаляем класс активности у всех элементов
+         item.classList.remove(activeClass);
+       })
+       evt.target.classList.add(activeClass);                // добавляем класс активности туда куда кликнули
+     })
+  }
+  getStaticInformation("#gender", "calculating__choose-item_active")  // передаем как аргументы родительский id там где пол (М\Ж) и класс активности
+  getStaticInformation(".calculating__choose_big", "calculating__choose-item_active")  // передаем сюда родителя статических элементов и класс активности
 });
