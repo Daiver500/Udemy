@@ -517,7 +517,7 @@ const createCard = (data) => {
   const result = document.querySelector(".calculating__result span"); // поле вывода результата
   let sex = "female";                                                             // дефолтное значение
   let height;                               
-  let weight;                                              // задаем все переменные, что вводит пользователь
+  let weight;                                              // задаем все переменные, что вводит пользователь (height, weight, age)
   let age;
   let ratio = 1.375;                                 // атрибут прописан в верстке дата атрибутами дефолтное значение
 
