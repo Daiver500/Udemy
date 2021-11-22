@@ -523,34 +523,63 @@ const createCard = (data) => {
 
   const calcTotal = () => {                                       
     if (!sex || !height || !weight || !age ||!ratio) {             // при отсутсивии данных выдаем ошибку
-        result.textContent = "____"
+        result.textContent = "___"
         return                                                     // досрочно прерываем функцию
     } 
 
     if (sex === "female") {                                         // если пол женский
-       result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio     // здесь берем формулу расчета каллорий и умножаем на уровень активности (см дата атрибуты в верстке у полей активности)
-    } else {
-      result.textContent = (88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio      // здесь тоже самое, что для женщин только для мужчин уже новая формула
+       result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio)     // здесь берем формулу расчета каллорий и умножаем на уровень активности (см дата атрибуты в верстке у полей активности)
+    } else {                                                                                                  // округляем все до целого числа
+      result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio)      // здесь тоже самое, что для женщин только для мужчин уже новая формула
     }
   }
   calcTotal()
 
-  const getStaticInformation = (parentSelector, activeClass) => {              // как аргумент передаем родителя и класс активности
+  const getStaticInformation = (parentSelector) => {              // как аргумент передаем родителя и класс активности
      const elements = document.querySelectorAll(`${parentSelector} div`)         // получаем все дивы внутри родителя
-     document.querySelector(parentSelector).addEventListener("click", (evt) => {
-       if (evt.target.getAttribute("data-ratio")) {                            // если у элемента есть дата атрибут
-          ratio = evt.target.getAttribute("data-ratio")        // переменная ratio будет = значению, написанному в дата атрибуте в верстке
-       } else {
-         sex = evt.target.getAttribute("id");                       // обращаемся к полям у которых нет дата атрибута, а есть id
-       }
-       console.log(ratio,sex)
+     
 
-       elements.forEach((item) => {                           // удаляем класс активности у всех элементов
-         item.classList.remove(activeClass);
-       })
-       evt.target.classList.add(activeClass);                // добавляем класс активности туда куда кликнули
-     })
+     elements.forEach((element) => {
+       element.addEventListener("click", (evt) => {
+        if (evt.target.getAttribute("data-ratio")) {                            // если у элемента есть дата атрибут
+           ratio = evt.target.getAttribute("data-ratio")        // переменная ratio будет = значению, написанному в дата атрибуте в верстке
+        } else {
+          sex = evt.target.getAttribute("id");                       // обращаемся к полям у которых нет дата атрибута, а есть id
+        }
+       
+    
+        elements.forEach((item) => {                           // удаляем класс активности у всех элементов
+          item.classList.remove("calculating__choose-item_active");
+        })
+        evt.target.classList.add("calculating__choose-item_active");                // добавляем класс активности туда куда кликнули
+        calcTotal()                                    // каждый раз вызываем функцию пересчета
+      }) 
+    })   
   }
-  getStaticInformation("#gender", "calculating__choose-item_active")  // передаем как аргументы родительский id там где пол (М\Ж) и класс активности
-  getStaticInformation(".calculating__choose_big", "calculating__choose-item_active")  // передаем сюда родителя статических элементов и класс активности
+
+
+  getStaticInformation("#gender")  // передаем как аргумент родительский id там где пол (М\Ж) 
+  getStaticInformation(".calculating__choose_big")  // передаем сюда родителя статических элементов (активности)
+  // Вызываем функцию два раза, так как у нас два блока элементов: М\Ж и блоки активностиs
+
+  const getDynamycInformation = (id) => {
+     const input = document.querySelector(id);
+     input.addEventListener("input", () => {
+       switch(input.getAttribute("id")) {             // проверяем на id инпуты, каждый раз когда будет что-то вводиться, то проверяется id и записывается соответствующее значение
+         case "height": 
+            height = input.value;
+            break;
+         case "weight":
+            weight = input.value;
+            break;
+          case "age":
+            age = input.value;
+            break;
+         }
+         calcTotal()                              // каждый раз вызываем функцию пересчета
+     })
+   }
+  getDynamycInformation("#height")     // вызываем функцию с тремя разными id
+  getDynamycInformation("#weight")
+  getDynamycInformation("#age")
 });
