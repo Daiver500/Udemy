@@ -515,11 +515,41 @@ const createCard = (data) => {
   // CALCULATOR
 
   const result = document.querySelector(".calculating__result span"); // поле вывода результата
-  let sex = "female";                                                             // дефолтное значение
+
+  let sex;                                                          
   let height;                               
-  let weight;                                              // задаем все переменные, что вводит пользователь (height, weight, age)
+  let weight;                                          
   let age;
-  let ratio = 1.375;                                 // атрибут прописан в верстке дата атрибутами дефолтное значение
+  let ratio;                               
+
+  if (localStorage.getItem("sex")) {                    // если в localStorage есть данные используем их, если нет задаем дефолтное значение
+    sex = localStorage.getItem("sex")
+  } else {
+    sex = "female";
+    localStorage.setItem("sex", "female")
+  }
+
+  if (localStorage.getItem("ratio")) {                    // если в localStorage есть данные используем их, если нет задаем дефолтное значение
+    ratio = localStorage.getItem("ratio")
+  } else {
+    ratio = "1.375";
+    localStorage.setItem("ratio", "1.375")
+  }
+
+  const initLocalSettings = (selector) => {                    // функция для localStorage
+     const elements = document.querySelectorAll(selector);
+     elements.forEach((element) => {
+      element.classList.remove("calculating__choose-item_active")
+      if (element.getAttribute("id") === localStorage.getItem("sex")) {
+         element.classList.add("calculating__choose-item_active")
+      }
+      if (element.getAttribute("data-ratio") === localStorage.getItem("ratio")) {
+        element.classList.add("calculating__choose-item_active")
+      }
+     })
+  }
+  initLocalSettings("#gender div")
+  initLocalSettings(".calculating__choose_big div")
 
   const calcTotal = () => {                                       
     if (!sex || !height || !weight || !age ||!ratio) {             // при отсутсивии данных выдаем ошибку
@@ -535,16 +565,18 @@ const createCard = (data) => {
   }
   calcTotal()
 
-  const getStaticInformation = (parentSelector) => {              // как аргумент передаем родителя и класс активности
-     const elements = document.querySelectorAll(`${parentSelector} div`)         // получаем все дивы внутри родителя
+  const getStaticInformation = (selector) => {              // как аргумент передаем родителя и класс активности
+     const elements = document.querySelectorAll(selector)         // получаем все дивы внутри родителя
      
 
      elements.forEach((element) => {
        element.addEventListener("click", (evt) => {
         if (evt.target.getAttribute("data-ratio")) {                            // если у элемента есть дата атрибут
            ratio = evt.target.getAttribute("data-ratio")        // переменная ratio будет = значению, написанному в дата атрибуте в верстке
+           localStorage.setItem("ratio", evt.target.getAttribute("data-ratio"))  // записываем значение в localStorage
         } else {
           sex = evt.target.getAttribute("id");                       // обращаемся к полям у которых нет дата атрибута, а есть id
+          localStorage.setItem("sex", evt.target.getAttribute("id"))  // записываем значение в localStorage
         }
        
     
@@ -558,13 +590,19 @@ const createCard = (data) => {
   }
 
 
-  getStaticInformation("#gender")  // передаем как аргумент родительский id там где пол (М\Ж) 
-  getStaticInformation(".calculating__choose_big")  // передаем сюда родителя статических элементов (активности)
-  // Вызываем функцию два раза, так как у нас два блока элементов: М\Ж и блоки активностиs
+  getStaticInformation("#gender div")  // передаем как аргумент div внутри родителя
+  getStaticInformation(".calculating__choose_big div")  // передаем сюда div внутри родителя
+  // Вызываем функцию два раза, так как у нас два блока элементов: М\Ж и блоки активности
 
   const getDynamycInformation = (id) => {
      const input = document.querySelector(id);
      input.addEventListener("input", () => {
+        if (input.value.match(/\D/g)) {                 // проверяем инпут на буквы и если вводятся не цифры, то красный бордер
+           input.style.border = "1px solid red"
+        } else {
+          input.style.border = "none"
+        }
+
        switch(input.getAttribute("id")) {             // проверяем на id инпуты, каждый раз когда будет что-то вводиться, то проверяется id и записывается соответствующее значение
          case "height": 
             height = input.value;
