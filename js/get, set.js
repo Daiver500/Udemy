@@ -17,4 +17,4 @@ const persone = {
 // console.log(persone.age)
 
 console.log(persone.userAge = 30)
-console.log(persone.userAge)
+console.log(persone.userAge)                                                                                                                                                                                                       
