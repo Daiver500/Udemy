@@ -4,7 +4,7 @@ console.log("Запрос данных ...")
 
 const req = new Promise((resolve, reject) => {       // в промис передается два аргумента resolve (успех), reject (не удача), выполнится может только один resolve/reject
   setTimeout(() => {                                 // все остальные после работать не будут
-      console.log("Подгтовка");
+      console.log("Подготовка");
 
       const product = {
           name: "TV",
